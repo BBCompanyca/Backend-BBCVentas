@@ -9,8 +9,8 @@ import (
 )
 
 var (
+	InvalidPassword      = errors.New("invalid password")
 	ErrUserAlreadyExists = errors.New("user already exists")
-	invalidPassword      = errors.New("invalid password")
 )
 
 func (s *serv) RegisterUser(ctx context.Context, email, name, password string) error {
@@ -42,10 +42,10 @@ func (s *serv) Login(ctx context.Context, email, password string) (*models.User,
 		return nil, err
 	}
 
-	decryptedPassword, err := encryption.Decrypt(bb)
+	decryptedPassword, _ := encryption.Decrypt(bb)
 
 	if string(decryptedPassword) != password {
-		return nil, invalidPassword
+		return nil, InvalidPassword
 	}
 
 	return &models.User{

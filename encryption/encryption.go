@@ -9,7 +9,7 @@ import (
 	"io"
 )
 
-const key = "547drt234ññod5896512ldkyrfcgyuññ"
+const key = "12345678998745632112302547895623"
 
 func Encrypt(plaintext []byte) ([]byte, error) {
 	c, err := aes.NewCipher([]byte(key))

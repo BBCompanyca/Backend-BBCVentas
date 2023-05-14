@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/BBCompanyca/Backend-BBCVentas.git/internal/user/entity"
 )
@@ -25,8 +26,12 @@ func (r *repo) SaveUser(ctx context.Context, email, name, password string) error
 func (r *repo) GetUserByEmail(ctx context.Context, email string) (*entity.User, error) {
 
 	u := &entity.User{}
-
 	err := r.db.GetContext(ctx, u, qryGeyUserByEmail, email)
+	if err != nil {
+		return nil, err
+	}
 
-	return u, err
+	fmt.Println("pasó por aquí...")
+
+	return u, nil
 }

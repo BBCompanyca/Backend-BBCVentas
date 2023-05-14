@@ -2,12 +2,12 @@ package main
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/BBCompanyca/Backend-BBCVentas.git/database"
 	"github.com/BBCompanyca/Backend-BBCVentas.git/internal/user/repository"
 	"github.com/BBCompanyca/Backend-BBCVentas.git/internal/user/service"
 	"github.com/BBCompanyca/Backend-BBCVentas.git/settings"
-	"github.com/jmoiron/sqlx"
 	"go.uber.org/fx"
 )
 
@@ -24,11 +24,20 @@ func main() {
 		),
 
 		fx.Invoke(
-			func(db *sqlx.DB) {
-				_, err := db.Query("select * from user")
+			func(ctx context.Context, serv service.Service) {
+				err := serv.RegisterUser(ctx, "neiferjr14@gmail.com", "Neifer", "Dilanjr15,.")
 				if err != nil {
 					panic(err)
 				}
+
+				u, err := serv.Login(ctx, "neiferjr14@gmail.com", "Dilanjr15,.")
+
+				fmt.Println(u)
+
+				if u.Name != "Neifer" {
+					panic("wrong name")
+				}
+
 			},
 		),
 	)

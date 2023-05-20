@@ -5,9 +5,11 @@ import (
 	"fmt"
 
 	"github.com/BBCompanyca/Backend-BBCVentas.git/database"
+	"github.com/BBCompanyca/Backend-BBCVentas.git/internal/user/api"
 	"github.com/BBCompanyca/Backend-BBCVentas.git/internal/user/repository"
 	"github.com/BBCompanyca/Backend-BBCVentas.git/internal/user/service"
 	"github.com/BBCompanyca/Backend-BBCVentas.git/settings"
+	"github.com/labstack/echo/v4"
 	"go.uber.org/fx"
 )
 
@@ -21,27 +23,29 @@ func main() {
 			database.New,
 			repository.New,
 			service.New,
+			api.New,
+			echo.New,
 		),
 
 		fx.Invoke(
-			func(ctx context.Context, serv service.Service) {
-				err := serv.RegisterUser(ctx, "neiferjr14@gmail.com", "Neifer", "Dilanjr15,.")
-				if err != nil {
-					panic(err)
-				}
-
-				u, err := serv.Login(ctx, "neiferjr14@gmail.com", "Dilanjr15,.")
-
-				fmt.Println(u)
-
-				if u.Name != "Neifer" {
-					panic("wrong name")
-				}
-
-			},
+			setLifeCycle,
 		),
 	)
 
 	app.Run()
 
+}
+
+func setLifeCycle(lc fx.Lifecycle, a *api.API, s *settings.Settings, e *echo.Echo) {
+	lc.Append(fx.Hook{
+		OnStart: func(ctx context.Context) error {
+			address := fmt.Sprintf(":%s", s.Port)
+			go a.Start(e, address)
+
+			return nil
+		},
+		OnStop: func(ctx context.Context) error {
+			return nil
+		},
+	})
 }

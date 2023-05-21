@@ -9,6 +9,10 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+type responseMessage struct {
+	Message string `json:"message"`
+}
+
 func (a *API) RegisterUser(c echo.Context) error {
 
 	ctx := c.Request().Context()
@@ -16,10 +20,15 @@ func (a *API) RegisterUser(c echo.Context) error {
 
 	err := c.Bind(&params)
 	if err != nil {
-		return c.JSON(http.StatusBadRequest, err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "invalid request"})
 	}
 
-	err = a.serv.RegisterUser(ctx, params.Email, params.Name, params.Password)
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	err = a.serv.SaveUser(ctx, params.Name, params.Username, params.Password, params.Permissions, 1, "0000-00-00", params.Registered_By)
 	if err != nil {
 		if err == service.ErrUserAlreadyExists {
 			return c.JSON(http.StatusConflict, err)

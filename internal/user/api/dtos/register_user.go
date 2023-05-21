@@ -1,7 +1,9 @@
 package dtos
 
 type RegisterUser struct {
-	Email    string `json:"email" validate:"required, email"`
-	Password string `json:"password" validate:"required, min=8"`
-	Name     string `json:"name" validate:"required"`
+	Name          string `json:"name"`
+	Username      string `json:"Username"`
+	Password      string `json:"password"`
+	Permissions   int    `json:"permissions"`
+	Registered_By string `json:"registered_by"`
 }

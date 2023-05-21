@@ -3,15 +3,11 @@ package service
 import (
 	"context"
 
-	"github.com/BBCompanyca/Backend-BBCVentas.git/internal/user/models"
 	"github.com/BBCompanyca/Backend-BBCVentas.git/internal/user/repository"
 )
 
 type Service interface {
-	RegisterUser(ctx context.Context, email, name, password string) error
-	Login(ctx context.Context, email, password string) (*models.User, error)
-	SaveUserRole(ctx context.Context, userID, roleID int64) error
-	RemoveUserRole(ctx context.Context, userID, roleID int64) error
+	SaveUser(ctx context.Context, name string, username string, password string, permissions int, status int, date_register string, registered_by string) error
 }
 
 type serv struct {

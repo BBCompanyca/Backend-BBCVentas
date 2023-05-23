@@ -28,7 +28,7 @@ func (a *API) RegisterUser(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
 	}
 
-	err = a.serv.SaveUser(ctx, params.Name, params.Username, params.Password, params.Permissions, 1, "0000-00-00", params.Registered_By)
+	err = a.serv.SaveUser(ctx, params.Name, params.Username, params.Password, params.Permissions, 1, "0000-00-00", "0000-00-00", params.Registered_By)
 	if err != nil {
 		if err == service.ErrUserAlreadyExists {
 			return c.JSON(http.StatusConflict, err)

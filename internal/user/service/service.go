@@ -8,7 +8,7 @@ import (
 )
 
 type Service interface {
-	SaveUser(ctx context.Context, name string, username string, password string, permissions int, status int, date_register string, registered_by string) error
+	SaveUser(ctx context.Context, name string, username string, password string, permissions int, status int, date_register string, date_update string, registered_by string) error
 	GetAllUser(ctx context.Context) ([]models.User, error)
 }
 

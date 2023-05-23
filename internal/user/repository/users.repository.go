@@ -14,7 +14,7 @@ const (
 	qryGetAllUser = `select userID, name, username, permission_level, status, date_register, date_update, registered_by from user`
 )
 
-func (r *repo) SaveUser(ctx context.Context, name string, username string, password string, permissions int, status int, date_register string, date_update string, registered_by string) error {
+func (r *repo) SaveUser(ctx context.Context, name string, username string, password string, permissions string, status int, date_register string, date_update string, registered_by string) error {
 	_, err := r.db.ExecContext(ctx, qryInsertUser, name, username, password, permissions, status, date_register, date_update, registered_by)
 	return err
 }

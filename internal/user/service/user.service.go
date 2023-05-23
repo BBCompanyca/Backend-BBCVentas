@@ -5,6 +5,7 @@ import (
 	"errors"
 
 	"github.com/BBCompanyca/Backend-BBCVentas.git/encryption"
+	"github.com/BBCompanyca/Backend-BBCVentas.git/internal/user/models"
 )
 
 var (
@@ -26,4 +27,29 @@ func (s *serv) SaveUser(ctx context.Context, name string, username string, passw
 	pass := encryption.ToBase64(bb)
 
 	return s.repo.SaveUser(ctx, name, username, pass, permissions, status, date_register, registered_by)
+}
+
+func (s *serv) GetAllUser(ctx context.Context) ([]models.User, error) {
+
+	u, err := s.repo.GetAllUser(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	user := []models.User{}
+
+	for _, u := range u {
+		user = append(user, models.User{
+			UserID:        u.UserID,
+			Name:          u.Name,
+			Username:      u.Username,
+			Permission:    u.Permission,
+			Status:        u.Status,
+			Date_Register: u.Date_Register,
+			Date_Update:   u.Date_Update,
+			Registered_By: u.Registered_By,
+		})
+	}
+
+	return user, nil
 }

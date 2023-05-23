@@ -41,3 +41,15 @@ func (a *API) RegisterUser(c echo.Context) error {
 	return c.JSON(http.StatusCreated, nil)
 
 }
+
+func (a *API) GetAllUser(c echo.Context) error {
+
+	ctx := c.Request().Context()
+
+	u, err := a.serv.GetAllUser(ctx)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, errors.New("unexpected error"))
+	}
+
+	return c.JSON(http.StatusOK, u)
+}

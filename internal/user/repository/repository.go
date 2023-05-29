@@ -11,6 +11,7 @@ type Repository interface {
 	SaveUser(ctx context.Context, name string, username string, password string, permissions string, status int, date_register string, date_update string, registered_by string) error
 	GetUserByUsername(ctx context.Context, username string) (*entity.User, error)
 	GetAllUser(ctx context.Context) ([]entity.User, error)
+	updateUser(ctx context.Context, ID int64, name string, username string, password string, permission int, status int, date_update string) error
 }
 
 type repo struct {

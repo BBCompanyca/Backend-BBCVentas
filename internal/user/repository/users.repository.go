@@ -7,11 +7,10 @@ import (
 )
 
 const (
-	qryInsertUser = `insert into user (name, username, password, permission_level, status, date_register, date_update, registered_by) values (?,?,?,?,?,?,?,?)`
-
+	qryInsertUser        = `insert into user (name, username, password, permission_level, status, date_register, date_update, registered_by) values (?,?,?,?,?,?,?,?)`
 	qryGetUserByUsername = `select userID, name, username, permission_level, status, date_register, date_update, registered_by from user where username = ?`
-
-	qryGetAllUser = `select userID, name, username, permission_level, status, date_register, date_update, registered_by from user`
+	qryGetAllUser        = `select userID, name, username, permission_level, status, date_register, date_update, registered_by from user`
+	qryUpdateUser        = `update set name = ?, username = ?, password = ?, permission_level = ?, status = ?, date_update = ? from user where userID = ?`
 )
 
 func (r *repo) SaveUser(ctx context.Context, name string, username string, password string, permissions string, status int, date_register string, date_update string, registered_by string) error {
@@ -41,4 +40,9 @@ func (r *repo) GetAllUser(ctx context.Context) ([]entity.User, error) {
 	}
 
 	return uu, nil
+}
+
+func (r *repo) updateUser(ctx context.Context, ID int64, name string, username string, password string, permission int, status int, date_update string) error {
+
+	return nil
 }

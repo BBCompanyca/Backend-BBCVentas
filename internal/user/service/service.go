@@ -10,6 +10,7 @@ import (
 type Service interface {
 	SaveUser(ctx context.Context, name string, username string, password string, permissions string, status int, date_register string, date_update string, registered_by string) error
 	GetAllUser(ctx context.Context) ([]models.User, error)
+	GetUserByUsername(ctx context.Context, username string) (*models.User, error)
 }
 
 type serv struct {

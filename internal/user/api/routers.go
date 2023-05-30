@@ -8,5 +8,5 @@ func (a *API) RegisterRoutes(e *echo.Echo) {
 
 	users.POST("/register", a.RegisterUser)
 	users.GET("/all", a.GetAllUser)
-
+	users.GET("/username", a.GetUserByUsername)
 }

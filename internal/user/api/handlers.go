@@ -57,3 +57,21 @@ func (a *API) GetAllUser(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, u)
 }
+
+func (a *API) GetUserByUsername(c echo.Context) error {
+
+	ctx := c.Request().Context()
+	params := dtos.UserByUsernameDTO{}
+
+	err := c.Bind(&params)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "invalid request"})
+	}
+
+	u, err := a.serv.GetUserByUsername(ctx, params.Username)
+	if err != nil {
+		return c.JSON(http.StatusNotFound, responseMessage{Message: "not found"})
+	}
+
+	return c.JSON(http.StatusOK, u)
+}

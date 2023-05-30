@@ -54,6 +54,25 @@ func (s *serv) GetAllUser(ctx context.Context) ([]models.User, error) {
 	return user, nil
 }
 
+func (s *serv) GetUserByUsername(ctx context.Context, username string) (*models.User, error) {
+
+	u, err := s.repo.GetUserByUsername(ctx, username)
+	if err != nil {
+		return nil, err
+	}
+
+	return &models.User{
+		UserID:        u.UserID,
+		Name:          u.Name,
+		Username:      u.Username,
+		Permission:    u.Permission,
+		Status:        u.Status,
+		Date_Register: u.Date_Register,
+		Date_Update:   u.Date_Update,
+		Registered_By: u.Registered_By,
+	}, nil
+}
+
 func traslatePermissionUser(permission string) string {
 
 	var valuePermission string
